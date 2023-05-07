@@ -1,0 +1,49 @@
+#   /$$$$$$  /$$                               /$$   /$$     /$$              
+#  /$$__  $$| $$                              |__/  | $$    | $$              
+# | $$  \ $$| $$  /$$$$$$   /$$$$$$$  /$$$$$$  /$$ /$$$$$$ /$$$$$$   /$$   /$$
+# | $$$$$$$$| $$ |____  $$ /$$_____/ /$$__  $$| $$|_  $$_/|_  $$_/  | $$  | $$
+# | $$__  $$| $$  /$$$$$$$| $$      | $$  \__/| $$  | $$    | $$    | $$  | $$
+# | $$  | $$| $$ /$$__  $$| $$      | $$      | $$  | $$ /$$| $$ /$$| $$  | $$
+# | $$  | $$| $$|  $$$$$$$|  $$$$$$$| $$      | $$  |  $$$$/|  $$$$/|  $$$$$$$
+# |__/  |__/|__/ \_______/ \_______/|__/      |__/   \___/   \___/   \____  $$
+#                                                                    /$$  | $$
+#                                                                   |  $$$$$$/
+#                                                                    \______/ 
+
+## Import files (Colors, Fonts, Etc)
+import:
+  - ~/.config/alacritty/colors.yml
+  - ~/.config/alacritty/fonts.yml
+
+env:
+  TERM: alacritty
+  WINIT_X11_SCALE_FACTOR: '1.0'
+
+window:
+  dimensions:
+    columns: 82
+    lines: 25
+
+  padding:
+    x: 40
+    y: 40
+
+  decorations: full
+  startup_mode: Windowed
+  dynamic_title: true
+
+# scrolling
+  history: 10000
+  multiplier: 3
+
+# Cursor
+# Requires v8+
+cursor:
+  style:
+    shape: Block
+    blinking: On
+
+  unfocused_hollow: false
+
+# reloading changes
+live_config_reload: true
