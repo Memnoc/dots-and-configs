@@ -68,8 +68,9 @@ alias lg='ls -l --group-directories-first'
 # git
 alias gcl='git clone --depth 1'
 alias gi='git init'
-alias ga='git add'
+alias ga='git add .'
 alias gc='git commit -m'
-alias gp='git push origin master'
+alias gpu='git push -u origin main'
+alias gp='git push'
+alias gst='git status'
 
-lias gp='git push origin master'
