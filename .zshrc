@@ -20,8 +20,9 @@ alias nvim-kick="NVIM_APPNAME=KickstartNeovim nvim"
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 # alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 
+# For being able to select neovim configs
 function nvims() {
-  items=("default" "KickstartNeovim" "LazyVim" "NvChad")
+  items=("default" "MemnocVim" "LazyVim" "NvChad")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
@@ -32,8 +33,17 @@ function nvims() {
   NVIM_APPNAME=$config nvim $@
 }
 
-# bindkey -s ^a "nvims\n"
+# For being able to display images with Kitty
 
+function cat() {
+    if file --mime-type "$1" | grep -qE '(jpeg|png|gif)$'; then
+        kitty icat "$1"
+    else
+        /bin/cat "$1"
+    fi
+}
+
+# bindkey -s ^a "nvims\n"
 bindkey -s "\C-a" "nvims"
 
 # On-demand rehash
@@ -74,3 +84,5 @@ alias gpu='git push -u origin main'
 alias gp='git push'
 alias gst='git status'
 
+# Sourcing wallpaper preview for neofetch
+neofetch --source ~/Pictures/wallpaper.jpg --colors 4 7 7 4 7 7
