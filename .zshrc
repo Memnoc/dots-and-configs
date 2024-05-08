@@ -20,9 +20,8 @@ alias nvim-kick="NVIM_APPNAME=KickstartNeovim nvim"
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 # alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 
-# For being able to select neovim configs
 function nvims() {
-  items=("default" "MemnocVim" "LazyVim" "NvChad")
+  items=("default" "KickstartNeovim" "LazyVim" "NvChad")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
   if [[ -z $config ]]; then
     echo "Nothing selected"
@@ -33,17 +32,8 @@ function nvims() {
   NVIM_APPNAME=$config nvim $@
 }
 
-# For being able to display images with Kitty
-
-function cat() {
-    if file --mime-type "$1" | grep -qE '(jpeg|png|gif)$'; then
-        kitty icat "$1"
-    else
-        /bin/cat "$1"
-    fi
-}
-
 # bindkey -s ^a "nvims\n"
+
 bindkey -s "\C-a" "nvims"
 
 # On-demand rehash
@@ -75,6 +65,15 @@ alias lm='ls -m'
 alias lr='ls -R'
 alias lg='ls -l --group-directories-first'
 
+# go
+alias gr='go run .'
+alias gmi='go mod init'
+alias gmt='go mod tidy'
+alias grc='go run -gcflags -m .'
+
+# terminal
+alias cl='clear'
+
 # git
 alias gcl='git clone --depth 1'
 alias gi='git init'
@@ -84,5 +83,19 @@ alias gpu='git push -u origin main'
 alias gp='git push'
 alias gst='git status'
 
-# Sourcing wallpaper preview for neofetch
-neofetch --source ~/Pictures/wallpaper.jpg --colors 4 7 7 4 7 7
+#rust
+alias cr='cargo run'
+alias cb='cargo build'
+alias cn='cargo new'
+alias cc='cargo check'
+alias cbr='cargo build --release'
+alias cws='cargo watch -w src -x run'
+
+# bun completions
+[ -s "/home/memnoc/.bun/_bun" ] && source "/home/memnoc/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+PATH=~/.console-ninja/.bin:$PATH
