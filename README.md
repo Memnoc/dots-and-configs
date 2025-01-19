@@ -2,8 +2,6 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/Memnoc/dots-and-configs)
 ![GitHub repo size](https://img.shields.io/github/repo-size/Memnoc/dots-and-configs)
-![GitHub license](https://img.shields.io/github/license/Memnoc/dots-and-configs)
-
 A collection of my configuration files and dotfiles for various tools and environments.
 
 ## Table of Contents
