@@ -11,7 +11,7 @@ plug "zsh-users/zsh-syntax-highlighting"
 autoload -Uz compinit
 compinit
 
-# Iinit zoxide
+# Init zoxide
 eval "$(zoxide init zsh)"
 
 # User configuration
@@ -20,6 +20,7 @@ alias nvim-kick="NVIM_APPNAME=KickstartNeovim nvim"
 alias nvim-chad="NVIM_APPNAME=NvChad nvim"
 # alias nvim-astro="NVIM_APPNAME=AstroNvim nvim"
 
+# Neovim distros control
 function nvims() {
   items=("default" "KickstartNeovim" "LazyVim" "NvChad")
   config=$(printf "%s\n" "${items[@]}" | fzf --prompt=" Neovim Config  " --height=~50% --layout=reverse --border --exit-0)
@@ -73,6 +74,11 @@ alias grc='go run -gcflags -m .'
 
 # terminal
 alias cl='clear'
+alias th='touch'
+alias mk='mkdir'
+alias ls='eza -lag --icons --color=always --group-directories-first --no-git --no-permissions --grid --hyperlink --header --time-style=iso --sort=size'
+alias lg='eza -lag --icons --color=always --group-directories-first --grid --hyperlink --header --git --git-ignore --sort=modified --no-permissions --git-repos'
+alias tr='echo $PATH | tr : '\n''
 
 # git
 alias gcl='git clone --depth 1'
@@ -90,6 +96,13 @@ alias cn='cargo new'
 alias cc='cargo check'
 alias cbr='cargo build --release'
 alias cws='cargo watch -w src -x run'
+alias ct='cargo test'
+alias tree='tree -I target'
+
+# pnpm
+alias p='pnpm install'
+alias pd='pnpm dlx'
+alias pa='pnpm add'
 
 # bun completions
 [ -s "/home/memnoc/.bun/_bun" ] && source "/home/memnoc/.bun/_bun"
@@ -97,5 +110,7 @@ alias cws='cargo watch -w src -x run'
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 
-PATH=~/.console-ninja/.bin:$PATH
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fpath+=${ZDOTDIR:-~}/.zsh_functions
