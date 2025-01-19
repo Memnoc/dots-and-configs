@@ -1,9 +1,3 @@
-To create a comprehensive and visually appealing README for the repository, I'll gather some information about the repository's content and structure. I'll start by examining the root directory to understand the primary components and any existing documentation.
-
-Let's begin with retrieving the contents of the root directory.Here's a polished and informative README for your repository:
-
----
-
 # dots-and-configs
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/Memnoc/dots-and-configs)
