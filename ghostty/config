@@ -1,0 +1,11 @@
+theme = TokyoNight Night
+font-size = 18
+mouse-hide-while-typing = true
+background-opacity = 1
+background-blur-radius = 20
+#macos-titlebar-style = "hidden"
+window-padding-x = 10
+window-padding-y = 10
+cursor-style = block
+cursor-style-blink = false
+shell-integration-features = no-cursor
