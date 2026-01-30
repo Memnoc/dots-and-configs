@@ -1,0 +1,56 @@
+# -----------------------------------------------------------------------------
+# Pastel Sorbet - Alacritty
+# "A soft, pastel colorscheme with rich purples and vibrant accents."
+# -----------------------------------------------------------------------------
+
+[colors.primary]
+background = "#1c1826"  # bg
+foreground = "#e8e4f2"  # fg
+dim_foreground = "#cdc8da" # fg_dim
+
+[colors.cursor]
+text = "#1c1826"        # bg (Text inside cursor)
+cursor = "#ff8ed0"      # pink (Sorbet accent)
+
+[colors.selection]
+text = "#e8e4f2"        # fg
+background = "#2e2840"  # bg_ui
+
+# -----------------------------------------------------------------------------
+# The Sorbet Collection (Normal Colors)
+# -----------------------------------------------------------------------------
+[colors.normal]
+black   = "#2e2840"     # bg_ui (Visible on bg, distinct from black hole)
+red     = "#ff8596"     # red
+green   = "#6ef298"     # green
+yellow  = "#ffd85c"     # yellow
+blue    = "#7db8ff"     # blue
+magenta = "#c88df7"     # purple
+cyan    = "#4cf0d8"     # cyan
+white   = "#cdc8da"     # fg_dim (Muted white)
+
+# -----------------------------------------------------------------------------
+# The Vibrant Toppings (Bright Colors)
+# -----------------------------------------------------------------------------
+[colors.bright]
+black   = "#726a88"     # grey
+red     = "#ffa0b0"     # red_bright
+green   = "#52edb8"     # green_bright
+yellow  = "#ffe48a"     # yellow_bright
+blue    = "#a8d0ff"     # blue_bright
+magenta = "#dba8ff"     # purple_bright
+cyan    = "#7af5e4"     # cyan_bright
+white   = "#e8e4f2"     # fg (Pure white)
+
+# -----------------------------------------------------------------------------
+# Dim Colors (Optional)
+# -----------------------------------------------------------------------------
+[colors.dim]
+black   = "#14111c"     # bg_dark
+red     = "#ff8596"
+green   = "#6ef298"
+yellow  = "#ffd85c"
+blue    = "#7db8ff"
+magenta = "#c88df7"
+cyan    = "#4cf0d8"
+white   = "#9c94b2"     # grey_light
