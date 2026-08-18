@@ -1,23 +1,23 @@
 # =============================================================================
-# Rosé Pine Dawn — Starship Prompt
+# Rosé Pine Moon — Starship Prompt
 # Palette:
-#   base       #faf4ed  (background)
-#   surface    #fffaf3
-#   overlay    #f2e9e1
-#   muted      #9893a5
-#   subtle     #797593
-#   text       #575279
-#   love       #b4637a  (red)
-#   gold       #ea9d34  (yellow)
-#   rose       #d7827e  (pink)
-#   pine       #286983  (cyan/blue)
-#   foam       #56949f  (teal)
-#   iris       #907aa9  (purple)
-#   highlight  #dfdad9
+#   base       #232136  (background)
+#   surface    #2a273f
+#   overlay    #393552
+#   muted      #6e6a86
+#   subtle     #908caa
+#   text       #e0def4
+#   love       #eb6f92  (red)
+#   gold       #f6c177  (yellow)
+#   rose       #ea9a97  (pink)
+#   pine       #3e8fb0  (cyan/blue)
+#   foam       #9ccfd8  (teal)
+#   iris       #c4a7e7  (purple)
+#   highlight  #44415a
 # =============================================================================
 
 format = """
-[╭─](fg:#9893a5)\
+[╭─](fg:#6e6a86)\
 $os\
 $username\
 $hostname\
@@ -31,25 +31,25 @@ $c\
 $python\
 $cmd_duration\
 $line_break\
-[╰─](fg:#9893a5)\
+[╰─](fg:#6e6a86)\
 $character"""
 
-palette = "rose_pine_dawn"
+palette = "rose_pine_moon"
 
-[palettes.rose_pine_dawn]
-base = "#faf4ed"
-surface = "#fffaf3"
-overlay = "#f2e9e1"
-muted = "#9893a5"
-subtle = "#797593"
-text = "#575279"
-love = "#b4637a"
-gold = "#ea9d34"
-rose = "#d7827e"
-pine = "#286983"
-foam = "#56949f"
-iris = "#907aa9"
-highlight = "#dfdad9"
+[palettes.rose_pine_moon]
+base = "#232136"
+surface = "#2a273f"
+overlay = "#393552"
+muted = "#6e6a86"
+subtle = "#908caa"
+text = "#e0def4"
+love = "#eb6f92"
+gold = "#f6c177"
+rose = "#ea9a97"
+pine = "#3e8fb0"
+foam = "#9ccfd8"
+iris = "#c4a7e7"
+highlight = "#44415a"
 
 # =============================================================================
 # OS icon
