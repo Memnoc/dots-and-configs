@@ -61,9 +61,10 @@ format = "[$symbol]($style) "
 style = "fg:pine"
 
 [os.symbols]
-Linux = ""
-Ubuntu = ""
-Pop = ""
+Linux = "󰌽"
+Arch = "󰣇"
+Ubuntu = "󰕈"
+Pop = ""
 
 # =============================================================================
 # Directory
