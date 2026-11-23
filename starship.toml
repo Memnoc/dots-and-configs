@@ -58,13 +58,13 @@ highlight = "#44415a"
 [os]
 disabled = false
 format = "[$symbol]($style) "
-style = "fg:pine"
+style = "fg:pine bold"
 
 [os.symbols]
 Linux = "󰌽"
 Arch = "󰣇"
 Ubuntu = "󰕈"
-Pop = ""
+Pop = " Pop!_OS"
 
 # =============================================================================
 # Directory

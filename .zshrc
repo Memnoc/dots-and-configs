@@ -271,3 +271,16 @@ alias tsc='npx tsc'
 # =============================================================================
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+# Call the installed statusline CLI even if another shell definition shadows it.
+statusline() { command statusline "$@"; }
+
+# Strict C build: cbuild file.c [extra gcc args]  -> binary named after the file
+cbuild() {
+  if [[ -z "$1" ]]; then
+    echo "usage: cbuild file.c [extra gcc args]" >&2
+    return 1
+  fi
+  local src="$1"; shift
+  gcc -std=c11 -Wall -Wextra -Wpedantic -Wshadow -Wformat=2 -Wconversion -g -o "${src%.c}" "$src" "$@"
+}
