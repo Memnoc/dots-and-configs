@@ -17,8 +17,16 @@ bell-features = no-system,no-audio,no-attention,no-title,no-border
 
 cursor-style = block
 cursor-style-blink = false
+# Uzume warm orange #f6ad75 dimmed to ~82%; dark Rose Pine base for the letter.
+cursor-color = #ca8e60
+cursor-text = #191724
 shell-integration-features = no-cursor
 
-# Cursor trail (needs Ghostty 1.2+); path is relative to this config file
+# Shaders run in order (needs Ghostty 1.2+); paths are relative to this file.
+# Comment out a line to turn that effect off.
+custom-shader = shaders/vignette.glsl
 custom-shader = shaders/cursor_trail.glsl
+#custom-shader = shaders/cursor_ripple.glsl
+custom-shader = shaders/cursor_land_pulse.glsl
+custom-shader = shaders/cursor_glow.glsl
 custom-shader-animation = true
