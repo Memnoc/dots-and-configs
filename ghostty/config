@@ -24,9 +24,9 @@ shell-integration-features = no-cursor
 
 # Shaders run in order (needs Ghostty 1.2+); paths are relative to this file.
 # Comment out a line to turn that effect off.
-custom-shader = shaders/vignette.glsl
+#custom-shader = shaders/vignette.glsl
 custom-shader = shaders/cursor_trail.glsl
 #custom-shader = shaders/cursor_ripple.glsl
-custom-shader = shaders/cursor_land_pulse.glsl
-custom-shader = shaders/cursor_glow.glsl
+#custom-shader = shaders/cursor_land_pulse.glsl
+#custom-shader = shaders/cursor_glow.glsl
 custom-shader-animation = true
