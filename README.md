@@ -6,6 +6,17 @@
 
 A collection of my configuration files and dotfiles for various tools and environments.
 
+## New or out-of-date machine
+
+```sh
+cd ~/Code/dots-and-configs && git pull && bin/setup-machine --dry-run
+bin/setup-machine
+```
+
+Pulls every repo in `~/Code`, enables the sync hooks, copies configs and lists
+what is still missing. See [docs/machines.md](docs/machines.md) for each
+machine's state and [AGENTS.md](AGENTS.md) for how changes are made.
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -35,31 +46,15 @@ This repository contains configuration files and dotfiles for various applicatio
 
 ## Installation
 
-To get started with these configurations, follow these steps:
+```sh
+git clone git@github.com:Memnoc/dots-and-configs.git ~/Code/dots-and-configs
+cd ~/Code/dots-and-configs
+bin/setup-machine --dry-run   # preview
+bin/setup-machine
+```
 
-1. **Clone the Repository**:
-
-   ```sh
-   git clone https://github.com/Memnoc/dots-and-configs.git
-   cd dots-and-configs
-   ```
-
-2. **Backup Existing Configurations**:
-
-   ```sh
-   mv ~/.config/nvim ~/.config/nvim.backup
-   mv ~/.zshrc ~/.zshrc.backup
-   mv ~/.bashrc ~/.bashrc.backup
-   mv ~/.tmux.conf ~/.tmux.conf.backup
-   ```
-
-3. **Symlink Configuration Files**:
-   ```sh
-   ln -s $(pwd)/.config/nvim ~/.config/nvim
-   ln -s $(pwd)/.zshrc ~/.zshrc
-   ln -s $(pwd)/.bashrc ~/.bashrc
-   ln -s $(pwd)/.tmux.conf ~/.tmux.conf
-   ```
+Configs are installed as copies, never symlinks. Existing files that differ
+from the repo are shown and skipped rather than overwritten; see below.
 
 ## Keeping machines in sync
 
@@ -73,6 +68,7 @@ the tracked files to their live locations:
 | `starship.toml` | `~/.config/starship.toml` |
 | `ghostty/` | `~/.config/ghostty/` |
 | `.config/wezterm/` | `~/.config/wezterm/` |
+| `agents/global.md` | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` |
 
 Enable it once per clone and every `git pull` applies changes automatically:
 

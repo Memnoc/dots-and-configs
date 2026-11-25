@@ -21,6 +21,8 @@ MAP="
 starship.toml         ~/.config/starship.toml
 ghostty               ~/.config/ghostty
 .config/wezterm       ~/.config/wezterm
+agents/global.md      ~/.claude/CLAUDE.md
+agents/global.md      ~/.codex/AGENTS.md
 "
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"

@@ -1,0 +1,145 @@
+#!/usr/bin/env bash
+# Bring this machine in line with the repos in ~/Code. Safe to run repeatedly.
+#
+#   bin/setup-machine            pull every repo, enable hooks, sync configs, report
+#   bin/setup-machine --dry-run  show what would happen; change nothing
+#
+# Steps:
+#   1. git pull every Git repo in $CODE_DIR (default ~/Code); dirty or
+#      diverged repos are reported and left alone
+#   2. enable `core.hooksPath .githooks` in repos that ship hooks, so every
+#      later `git pull` syncs configs automatically
+#   3. copy configs into place: dots-and-configs/bin/sync-config (never
+#      overwrites locally edited files) and My-LazyVim/bin/sync-config
+#   4. report tools and plugin managers that are still missing
+#
+# It installs no packages: package names differ between Fedora, Ubuntu and
+# Homebrew. See AGENTS.md and docs/machines.md. Works with macOS's bash 3.2.
+
+set -u
+
+CODE_DIR="${CODE_DIR:-$HOME/Code}"
+# Tools installed with cargo may not be on PATH in a non-login shell.
+PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin"
+DOTS="$(cd "$(dirname "$0")/.." && pwd)"
+DRY=false
+
+for arg in "$@"; do
+  case "$arg" in
+    --dry-run) DRY=true ;;
+    -h|--help) sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    *) echo "setup-machine: unknown option '$arg'" >&2; exit 2 ;;
+  esac
+done
+
+run() {
+  if $DRY; then echo "    would run: $*"; else "$@"; fi
+}
+
+problems=0
+note() { echo "  ! $*"; problems=$((problems + 1)); }
+
+echo "== 1. Pull repos in $CODE_DIR"
+for repo in "$CODE_DIR"/*/; do
+  repo="${repo%/}"
+  [ -d "$repo/.git" ] || continue
+  name="$(basename "$repo")"
+  if [ -n "$(git -C "$repo" status --porcelain --untracked-files=no)" ]; then
+    note "$name: uncommitted changes, not pulled (commit or stash, then rerun)"
+    continue
+  fi
+  if $DRY; then
+    git -C "$repo" fetch -q 2>/dev/null
+    behind=$(git -C "$repo" rev-list --count HEAD..@{u} 2>/dev/null || echo "?")
+    echo "  $name: $behind new commit(s) to pull"
+  elif before=$(git -C "$repo" rev-parse HEAD) && out=$(git -C "$repo" pull -q 2>&1); then
+    count=$(git -C "$repo" rev-list --count "$before..HEAD" 2>/dev/null || echo 0)
+    if [ "$count" -gt 0 ]; then
+      echo "  $name: pulled $count new commit(s)"
+    else
+      echo "  $name: up to date"
+    fi
+  else
+    note "$name: pull failed: $(echo "$out" | tail -1)"
+  fi
+done
+
+echo "== 2. Enable sync hooks"
+for repo in "$CODE_DIR"/*/; do
+  repo="${repo%/}"
+  [ -d "$repo/.githooks" ] || continue
+  name="$(basename "$repo")"
+  if [ "$(git -C "$repo" config core.hooksPath)" = ".githooks" ]; then
+    echo "  $name: already enabled"
+  else
+    echo "  $name: enabling"
+    run git -C "$repo" config core.hooksPath .githooks
+  fi
+done
+
+echo "== 3. Sync configs"
+if $DRY; then
+  "$DOTS/bin/sync-config" --dry-run | sed 's/^/  /'
+else
+  "$DOTS/bin/sync-config" | sed 's/^/  /'
+fi
+if [ -x "$CODE_DIR/My-LazyVim/bin/sync-config" ]; then
+  if command -v nvim >/dev/null 2>&1; then
+    # My-LazyVim's sync replaces Neovim's config dir wholesale (rsync --delete).
+    # Back it up first if it holds anything the repo doesn't, so local edits
+    # made directly in the live config are never lost.
+    nvim_dir=$(nvim --clean --headless --cmd 'lua io.write(vim.fn.stdpath("config"))' +qa 2>/dev/null)
+    drift=""
+    if [ -n "$nvim_dir" ] && [ -d "$nvim_dir" ]; then
+      drift=$(rsync -an --delete --exclude=.git --exclude=.githooks --itemize-changes \
+        "$CODE_DIR/My-LazyVim/" "$nvim_dir/" | grep -v '^\.d' || true)
+    fi
+    backup="$nvim_dir.bak-$(date +%Y%m%d-%H%M%S)"
+    if $DRY; then
+      [ -n "$drift" ] && echo "  would back up $nvim_dir to $backup (it differs from My-LazyVim)"
+      echo "  would run My-LazyVim/bin/sync-config"
+    else
+      if [ -n "$drift" ]; then
+        cp -Rp "$nvim_dir" "$backup"
+        echo "  backed up $nvim_dir to $backup (it differed from My-LazyVim)"
+      fi
+      "$CODE_DIR/My-LazyVim/bin/sync-config" | sed 's/^/  /'
+    fi
+  else
+    note "nvim missing: LazyVim config not synced"
+  fi
+fi
+
+echo "== 4. Check tools"
+for tool in git zsh nvim starship fzf zoxide eza tmux rg fd jq; do
+  command -v "$tool" >/dev/null 2>&1 || note "missing: $tool"
+done
+command -v ghostty >/dev/null 2>&1 || [ -d /Applications/Ghostty.app ] || note "missing: ghostty"
+command -v wezterm >/dev/null 2>&1 || [ -d /Applications/WezTerm.app ] || note "missing: wezterm"
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] || \
+  note "missing: zap (git clone --depth 1 -b release-v1 https://github.com/zap-zsh/zap.git ~/.local/share/zap)"
+[ -d "$HOME/.tmux/plugins/tpm" ] || \
+  note "missing: tpm (git clone --depth 1 https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm)"
+if [ -d "$CODE_DIR/uzume" ] && [ ! -x "$HOME/.local/bin/uzume" ]; then
+  note "uzume not registered (cd $CODE_DIR/uzume && python3 setup-editor --register)"
+fi
+# Login shell from the account database ($SHELL can be stale until re-login)
+if command -v getent >/dev/null 2>&1; then
+  login_shell=$(getent passwd "$(id -un)" | cut -d: -f7)
+elif command -v dscl >/dev/null 2>&1; then
+  login_shell=$(dscl . -read "/Users/$(id -un)" UserShell 2>/dev/null | awk '{print $2}')
+else
+  login_shell="${SHELL:-unknown}"
+fi
+case "$login_shell" in
+  */zsh) ;;
+  *) note "login shell is ${login_shell:-unknown}, not zsh (chsh -s \"\$(command -v zsh)\")" ;;
+esac
+
+echo
+$DRY && echo "Dry run: nothing was changed."
+if [ "$problems" -eq 0 ]; then
+  echo "Machine is set up."
+else
+  echo "$problems item(s) need attention (marked !). Rerun after fixing; it is safe to repeat."
+fi
