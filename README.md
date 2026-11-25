@@ -61,6 +61,32 @@ To get started with these configurations, follow these steps:
    ln -s $(pwd)/.tmux.conf ~/.tmux.conf
    ```
 
+## Keeping machines in sync
+
+Configs are installed as plain copies (no symlinks). `bin/sync-config` copies
+the tracked files to their live locations:
+
+| Repo | Live location |
+| --- | --- |
+| `.zshrc` | `~/.zshrc` |
+| `.tmux.conf` | `~/.tmux.conf` |
+| `starship.toml` | `~/.config/starship.toml` |
+| `ghostty/` | `~/.config/ghostty/` |
+| `.config/wezterm/` | `~/.config/wezterm/` |
+
+Enable it once per clone and every `git pull` applies changes automatically:
+
+```sh
+git config core.hooksPath .githooks
+bin/sync-config
+```
+
+A live file edited directly on a machine is never overwritten silently: the
+sync shows the diff and skips it. Copy the edit into the repo, or run
+`bin/sync-config --force` to take the repo version (a `.bak` copy is kept).
+`bin/sync-config --dry-run` previews changes. To sync another file, add a line
+to the `MAP` at the top of the script.
+
 ## Usage
 
 ### Neovim Configurations

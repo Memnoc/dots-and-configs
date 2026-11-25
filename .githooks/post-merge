@@ -1,0 +1,3 @@
+#!/bin/sh
+# After `git pull` (fast-forward/merge): copy changed configs into place.
+exec "$(git rev-parse --show-toplevel)/bin/sync-config"

@@ -1,0 +1,4 @@
+#!/bin/sh
+# After `git pull` that rebased local commits: copy changed configs into place.
+[ "$1" = "rebase" ] || exit 0
+exec "$(git rev-parse --show-toplevel)/bin/sync-config"
