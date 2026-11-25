@@ -6,22 +6,70 @@
 
 A collection of my configuration files and dotfiles for various tools and environments.
 
-## New or out-of-date machine
+## Set up a machine
+
+Do this once on every machine (Linux or macOS). Repos are expected in `~/Code`.
+
+**1. Get this repo onto the machine.**
+
+Already cloned? Pull it; the pull is what brings `bin/setup-machine` with it:
 
 ```sh
-cd ~/Code/dots-and-configs && git pull && bin/setup-machine --dry-run
+cd ~/Code/dots-and-configs && git pull
+```
+
+Not cloned yet:
+
+```sh
+git clone git@github.com:Memnoc/dots-and-configs.git ~/Code/dots-and-configs
+cd ~/Code/dots-and-configs
+```
+
+**2. Preview, then run the setup.**
+
+```sh
+bin/setup-machine --dry-run   # shows what would happen, changes nothing
 bin/setup-machine
 ```
 
-Pulls every repo in `~/Code`, enables the sync hooks, copies configs and lists
-what is still missing. See [docs/machines.md](docs/machines.md) for each
-machine's state and [AGENTS.md](AGENTS.md) for how changes are made.
+Always start with `--dry-run` on a machine that has not run it before
+(especially macOS). The setup:
+
+1. pulls every repo in `~/Code` (you only pull this one yourself; repos with
+   uncommitted work are reported and left alone)
+2. turns on the sync hooks in repos that have them (this one and My-LazyVim)
+3. copies the configs into place (table below); Neovim's config dir is backed
+   up first if it holds edits the My-LazyVim repo doesn't have
+4. lists anything still missing: packages, zap, TPM, Uzume, zsh as login
+   shell. It installs no packages; install those with the platform's package
+   manager and run it again
+
+**3. Fix anything marked `!` and run `bin/setup-machine` again** until it
+reports `Machine is set up.` It is safe to run as often as you like.
+
+**4. Record the machine** in [docs/machines.md](docs/machines.md) (what was
+installed, anything machine-specific) and commit it.
+
+### After that
+
+- `git pull` in this repo or My-LazyVim is all you need: the hooks copy any
+  changed configs into place automatically.
+- Run `bin/setup-machine` again after cloning a new repo into `~/Code`, or to
+  check a machine you haven't used for a while.
+- Change configs in this repo, not in the live copies; see
+  [Keeping machines in sync](#keeping-machines-in-sync).
+- Coding agents (Claude Code, Codex) on every set-up machine read
+  `agents/global.md`, installed as `~/.claude/CLAUDE.md` and
+  `~/.codex/AGENTS.md`. Agents working in this repo also read
+  [AGENTS.md](AGENTS.md).
 
 ## Table of Contents
 
+- [Set up a machine](#set-up-a-machine)
 - [Introduction](#introduction)
 - [Features](#features)
 - [Installation](#installation)
+- [Keeping machines in sync](#keeping-machines-in-sync)
 - [Usage](#usage)
 - [Configuration](#configuration)
 - [Contribution](#contribution)
@@ -46,15 +94,8 @@ This repository contains configuration files and dotfiles for various applicatio
 
 ## Installation
 
-```sh
-git clone git@github.com:Memnoc/dots-and-configs.git ~/Code/dots-and-configs
-cd ~/Code/dots-and-configs
-bin/setup-machine --dry-run   # preview
-bin/setup-machine
-```
-
-Configs are installed as copies, never symlinks. Existing files that differ
-from the repo are shown and skipped rather than overwritten; see below.
+See [Set up a machine](#set-up-a-machine) at the top: clone or pull this
+repo, then run `bin/setup-machine --dry-run` and `bin/setup-machine`.
 
 ## Keeping machines in sync
 
@@ -70,12 +111,9 @@ the tracked files to their live locations:
 | `.config/wezterm/` | `~/.config/wezterm/` |
 | `agents/global.md` | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` |
 
-Enable it once per clone and every `git pull` applies changes automatically:
-
-```sh
-git config core.hooksPath .githooks
-bin/sync-config
-```
+`bin/setup-machine` turns on the hooks (`git config core.hooksPath .githooks`),
+after which every `git pull` runs `bin/sync-config` automatically. You can also
+run it by hand after editing a config here.
 
 A live file edited directly on a machine is never overwritten silently: the
 sync shows the diff and skips it. Copy the edit into the repo, or run
