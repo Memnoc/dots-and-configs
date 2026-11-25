@@ -61,10 +61,12 @@ Fully set up 2026-11-24/25.
   - *System:* snapper on the btrfs `root` subvolume (config `root`,
     snapshots in `/.snapshots`). `libdnf5-plugin-actions` with
     `/etc/dnf/libdnf5-plugins/actions.d/snapper.actions` takes a pre/post
-    pair around every dnf transaction. Retention: `NUMBER_LIMIT=10`,
-    `TIMELINE_LIMIT_HOURLY=5`, `TIMELINE_LIMIT_DAILY=7`, the rest 0;
-    `snapper-timeline.timer` and `snapper-cleanup.timer` enabled;
-    `ALLOW_USERS=memnoc`. Snapshot #1 ("Known good: before One Touch
+    pair around every dnf transaction. Retention: `NUMBER_LIMIT=6`
+    (the last 3 dnf transactions; the hook marks nothing important, so
+    `NUMBER_LIMIT_IMPORTANT` never applies). Timeline snapshots are off
+    (`TIMELINE_CREATE=no`, `snapper-timeline.timer` disabled);
+    `snapper-cleanup.timer` enabled; `ALLOW_USERS=memnoc` (it can create
+    and list snapshots, but `set-config` needs sudo). Snapshot #1 ("Known good: before One Touch
     setup") has no cleanup algorithm, so it is kept until deleted by hand.
     Undo an update: `snapper status A..B`, `sudo snapper undochange A..B`.
   - *Files:* Pika Backup (Flatpak) to the external 700 GB ext4 drive (UUID
