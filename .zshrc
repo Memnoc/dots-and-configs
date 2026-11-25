@@ -15,6 +15,9 @@ export PATH="$HOME/.local/bin:$PATH"
 export N_PREFIX="$HOME/n"
 export PATH="$N_PREFIX/bin:$PATH"
 
+# fnm (Node version manager) on machines that use it instead of n
+command -v fnm >/dev/null && eval "$(fnm env --use-on-cd --version-file-strategy=recursive --shell zsh)"
+
 # Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
@@ -27,9 +30,13 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CACHE_HOME="$HOME/.cache"
 
-# Default editor
-export EDITOR="nvim"
-export VISUAL="nvim"
+# Default editor: Uzume where installed, otherwise plain nvim
+if command -v uzume >/dev/null; then
+  export EDITOR="uzume"
+else
+  export EDITOR="nvim"
+fi
+export VISUAL="$EDITOR"
 
 # Wayland clipboard support for Neovim
 export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
@@ -93,7 +100,12 @@ eval "$(zoxide init zsh)"
 # FZF
 # =============================================================================
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# ~/.fzf.zsh comes from fzf's git installer; distro/brew packages use `fzf --zsh`
+if [ -f ~/.fzf.zsh ]; then
+  source ~/.fzf.zsh
+elif command -v fzf >/dev/null; then
+  source <(fzf --zsh)
+fi
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git'
