@@ -13,6 +13,7 @@ Configs are **plain copies, never symlinks**. `bin/sync-config` copies:
 | `.zshrc` | `~/.zshrc` |
 | `.tmux.conf` | `~/.tmux.conf` |
 | `starship.toml` | `~/.config/starship.toml` |
+| `hyfetch.json` | `~/.config/hyfetch.json` |
 | `ghostty/` | `~/.config/ghostty/` |
 | `.config/wezterm/` | `~/.config/wezterm/` |
 | `agents/global.md` | `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md` |

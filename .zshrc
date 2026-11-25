@@ -179,6 +179,13 @@ alias th='touch'
 alias mk='mkdir -p'
 alias tr='echo $PATH | tr : "\n"'
 
+# hyfetch logo per machine (hyfetch.json leaves the distro to auto-detect)
+if [[ "$OSTYPE" == darwin* ]]; then
+  alias hyfetch='hyfetch --distro macos_small'
+elif [[ -r /etc/os-release ]] && grep -q '^ID=fedora-asahi-remix' /etc/os-release; then
+  alias hyfetch='hyfetch --distro asahi'
+fi
+
 # Config shortcuts
 alias zshconfig="nvim ~/.zshrc"
 alias starconfig="nvim ~/.config/starship.toml"
