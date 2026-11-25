@@ -57,6 +57,26 @@ Fully set up 2026-11-24/25.
   stripping `X-CosmicApplet` from exported desktop files (rerun after
   installing or updating a Flatpak COSMIC applet). COSMIC theme
   `radius_xl` set to 4px in `~/.config/cosmic/com.system76.CosmicTheme.*`.
+- **Backups (set up 2026-11-25, local only):**
+  - *System:* snapper on the btrfs `root` subvolume (config `root`,
+    snapshots in `/.snapshots`). `libdnf5-plugin-actions` with
+    `/etc/dnf/libdnf5-plugins/actions.d/snapper.actions` takes a pre/post
+    pair around every dnf transaction. Retention: `NUMBER_LIMIT=10`,
+    `TIMELINE_LIMIT_HOURLY=5`, `TIMELINE_LIMIT_DAILY=7`, the rest 0;
+    `snapper-timeline.timer` and `snapper-cleanup.timer` enabled;
+    `ALLOW_USERS=memnoc`. Snapshot #1 ("Known good: before One Touch
+    setup") has no cleanup algorithm, so it is kept until deleted by hand.
+    Undo an update: `snapper status A..B`, `sudo snapper undochange A..B`.
+  - *Files:* Pika Backup (Flatpak) to the external 700 GB ext4 drive (UUID
+    `85bd9193-922b-4396-8f45-fcc3d64a4d7e`), encrypted borg repo in
+    `pika/`. Whole home minus the Caches preset, daily at 17:00 when the
+    drive is connected and on AC, old archives pruned (Pika defaults).
+    First run: 11.5 GB, 187k files, about 2 minutes.
+  - *Not Timeshift:* removed. Its btrfs mode needs `@`/`@home` subvolumes
+    (Fedora uses `root`/`home`), and in rsync mode Timeshift 25.12.4 on
+    aarch64 finished the copy in about 90 s and then sat at 100% CPU for over
+    an hour before saving the snapshot. Its rsync mode would also copy
+    `/.snapshots` unless excluded.
 - **Known limits:** sleep is s2idle only and drains about 3.5%/hour
   (~3 W); there is no hibernate. Shut down for long periods unplugged.
   x86_64 binaries committed to repos will not run here; build locally.
