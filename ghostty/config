@@ -17,8 +17,8 @@ bell-features = no-system,no-audio,no-attention,no-title,no-border
 
 cursor-style = block
 cursor-style-blink = false
-# Uzume warm orange #f6ad75 dimmed to ~82%; dark Rose Pine base for the letter.
-cursor-color = #ca8e60
+# Rose Pine iris; dark Rose Pine base for the letter. Shaders glow in this colour.
+cursor-color = #c4a7e7
 cursor-text = #191724
 shell-integration-features = no-cursor
 
@@ -28,5 +28,5 @@ shell-integration-features = no-cursor
 custom-shader = shaders/cursor_trail.glsl
 #custom-shader = shaders/cursor_ripple.glsl
 #custom-shader = shaders/cursor_land_pulse.glsl
-#custom-shader = shaders/cursor_glow.glsl
+custom-shader = shaders/cursor_glow.glsl
 custom-shader-animation = true

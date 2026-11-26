@@ -14,11 +14,11 @@ local config = {
 	visual_bell = { fade_in_duration_ms = 0, fade_out_duration_ms = 0 },
 	hide_mouse_cursor_when_typing = true,
 
-	-- Cursor matches Ghostty: Uzume warm orange dimmed to ~82%, dark Rose Pine letter.
+	-- Cursor matches Ghostty: Rose Pine iris, dark Rose Pine letter.
 	default_cursor_style = "SteadyBlock",
 	colors = {
-		cursor_bg = "#ca8e60",
-		cursor_border = "#ca8e60",
+		cursor_bg = "#c4a7e7",
+		cursor_border = "#c4a7e7",
 		cursor_fg = "#191724",
 	},
 }

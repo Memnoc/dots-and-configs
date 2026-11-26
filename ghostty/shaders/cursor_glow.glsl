@@ -1,8 +1,8 @@
 // Cursor glow for Ghostty 1.2+ (custom-shader).
 // A soft halo in the cursor colour fades out around the cursor cell.
 
-const float RADIUS = 5.0;    // pixels for the glow to fall to ~37%
-const float STRENGTH = 0.1;  // blend at the cursor edge
+const float RADIUS = 8.0;    // pixels for the glow to fall to ~37%
+const float STRENGTH = 0.15;  // blend at the cursor edge
 
 // Signed distance from p to a box of half-size b centred on the origin.
 float sdBox(vec2 p, vec2 b) {
