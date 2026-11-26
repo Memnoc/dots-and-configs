@@ -61,6 +61,7 @@ format = "[$symbol]($style) "
 style = "fg:pine bold"
 
 [os.symbols]
+Macos = ""
 Linux = "󰌽"
 Arch = "󰣇"
 Ubuntu = "󰕈"

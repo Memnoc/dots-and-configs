@@ -3,7 +3,10 @@
 # =============================================================================
 
 # Rust / Cargo
-source "$HOME/.cargo/env"
+[[ -r "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+
+# Keep repeated shell startup from duplicating PATH entries.
+typeset -U path PATH
 
 # Bob (Neovim version manager)
 export PATH="$HOME/.local/share/bob/nvim-bin:$PATH"
@@ -38,8 +41,11 @@ else
 fi
 export VISUAL="$EDITOR"
 
-# Wayland clipboard support for Neovim
-export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
+# Wayland clipboard support for Neovim (Linux only)
+[[ "$OSTYPE" == linux* ]] && export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
+
+# Homebrew LLVM tools (appended: Apple clang stays default)
+[[ -d /opt/homebrew/opt/llvm/bin ]] && export PATH="$PATH:/opt/homebrew/opt/llvm/bin"
 
 # =============================================================================
 # ZAP PLUGIN MANAGER
@@ -48,17 +54,19 @@ export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-0}"
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && \
   source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
 
-plug "zsh-users/zsh-autosuggestions"
-plug "zap-zsh/supercharge"
-plug "zsh-users/zsh-syntax-highlighting"
-plug "Aloxaf/fzf-tab"
+if (( $+functions[plug] )); then
+  plug "zsh-users/zsh-autosuggestions"
+  plug "zap-zsh/supercharge"
+fi
 
 # =============================================================================
 # COMPLETION
 # =============================================================================
 
-autoload -Uz compinit
-compinit
+if (( ! $+_comps )); then
+  autoload -Uz compinit
+  compinit
+fi
 
 # Case-insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
@@ -87,14 +95,14 @@ setopt APPEND_HISTORY
 bindkey -e
 # Ctrl+A → nvims launcher
 bindkey -s "\C-a" "nvims\n"
-# Ctrl+R → fzf history
+# Ctrl+R fallback; fzf replaces it below when installed.
 bindkey '^R' history-incremental-search-backward
 
 # =============================================================================
 # ZOXIDE
 # =============================================================================
 
-eval "$(zoxide init zsh)"
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
 
 # =============================================================================
 # FZF
@@ -115,50 +123,56 @@ export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border --color=bg+:#313
 # STARSHIP PROMPT
 # =============================================================================
 
-eval "$(starship init zsh)"
+(( $+commands[starship] )) && eval "$(starship init zsh)"
 
 # =============================================================================
-# ON-DEMAND REHASH (APT-aware version for Pop!_OS)
+# ON-DEMAND REHASH (Linux APT only)
 # =============================================================================
 
-zshcache_time="$(date +%s%N)"
-autoload -Uz add-zsh-hook
-
-rehash_precmd() {
-  if [[ -a /var/cache/apt/pkgcache.bin ]]; then
-    local aptcache_time="$(date -r /var/cache/apt/pkgcache.bin +%s%N)"
-    if (( zshcache_time < aptcache_time )); then
+if [[ "$OSTYPE" == linux* && -e /var/cache/apt/pkgcache.bin ]]; then
+  zshcache_time=$(stat -c %Y /var/cache/apt/pkgcache.bin)
+  autoload -Uz add-zsh-hook
+  rehash_precmd() {
+    [[ -e /var/cache/apt/pkgcache.bin ]] || return 0
+    local aptcache_time=$(stat -c %Y /var/cache/apt/pkgcache.bin)
+    if [[ "$zshcache_time" != "$aptcache_time" ]]; then
       rehash
       zshcache_time="$aptcache_time"
     fi
-  fi
-}
-
-add-zsh-hook -Uz precmd rehash_precmd
+  }
+  add-zsh-hook -Uz precmd rehash_precmd
+fi
 
 # =============================================================================
 # NEOVIM CONFIG SWITCHER
 # =============================================================================
 
-alias nvim-lazy="NVIM_APPNAME=LazyVim nvim"
-alias nvim-kick="NVIM_APPNAME=KickstartNeovim nvim"
-alias nvim-chad="NVIM_APPNAME=NvChad nvim"
+if [[ -d "$XDG_CONFIG_HOME/LazyVim" ]]; then
+  alias nvim-lazy='NVIM_APPNAME=LazyVim nvim'
+elif [[ -f "$XDG_CONFIG_HOME/nvim/lazyvim.json" ]]; then
+  alias nvim-lazy='nvim'
+fi
+[[ -d "$XDG_CONFIG_HOME/KickstartNeovim" ]] && alias nvim-kick='NVIM_APPNAME=KickstartNeovim nvim'
+[[ -d "$XDG_CONFIG_HOME/NvChad" ]] && alias nvim-chad='NVIM_APPNAME=NvChad nvim'
 
 function nvims() {
-  items=("default" "KickstartNeovim" "LazyVim" "NvChad")
-  config=$(printf "%s\n" "${items[@]}" | fzf \
-    --prompt=" Neovim Config  " \
-    --height=~50% \
-    --layout=reverse \
-    --border \
-    --exit-0)
-  if [[ -z $config ]]; then
-    echo "Nothing selected"
-    return 0
-  elif [[ $config == "default" ]]; then
-    config=""
+  local config candidate
+  local -a items=(default)
+  for candidate in KickstartNeovim LazyVim NvChad FrontVim MemnocVim uzume; do
+    [[ -d "$XDG_CONFIG_HOME/$candidate" ]] && items+=("$candidate")
+  done
+  if (( ${#items} == 1 )); then
+    env -u NVIM_APPNAME nvim "$@"
+    return
   fi
-  NVIM_APPNAME=$config nvim $@
+  config=$(printf '%s\n' "${items[@]}" | fzf --prompt=' Neovim Config  ' \
+    --height='~50%' --layout=reverse --border --exit-0) || return 0
+  [[ -n "$config" ]] || return 0
+  if [[ "$config" == default ]]; then
+    env -u NVIM_APPNAME nvim "$@"
+  else
+    NVIM_APPNAME="$config" nvim "$@"
+  fi
 }
 
 # =============================================================================
@@ -211,7 +225,8 @@ alias gd='git diff'
 alias cr='cargo run'
 alias cb='cargo build'
 alias cn='cargo new'
-alias cc='cargo check'
+# ck, not cc: cc is the C compiler
+alias ck='cargo check'
 alias cbr='cargo build --release'
 alias cws='cargo watch -w src -x run'
 alias ct='cargo test'
@@ -290,6 +305,12 @@ alias tsc='npx tsc'
 # =============================================================================
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+# Load completion and highlighting wrappers after widgets have been registered.
+if (( $+functions[plug] )); then
+  (( $+commands[fzf] )) && plug "Aloxaf/fzf-tab"
+  plug "zsh-users/zsh-syntax-highlighting"
+fi
 
 # Call the installed statusline CLI even if another shell definition shadows it.
 statusline() { command statusline "$@"; }
