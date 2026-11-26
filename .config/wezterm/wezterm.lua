@@ -1,6 +1,6 @@
 local wezterm = require("wezterm")
 
-return {
+local config = {
 	color_scheme = "rose-pine",
 	font = wezterm.font("JetBrainsMono Nerd Font"),
 	-- Retina macOS needs a larger size than the Linux machines.
@@ -21,7 +21,12 @@ return {
 		cursor_border = "#ca8e60",
 		cursor_fg = "#191724",
 	},
-
-	-- Use the desktop/system SSH agent directly instead of WezTerm's proxy.
-	mux_enable_ssh_agent = false,
 }
+
+-- Use the desktop/system SSH agent directly instead of WezTerm's proxy.
+-- The option only exists after the 20240203 stable release (e.g. Homebrew's macOS cask).
+if wezterm.version > "20240203-110809-5046fc22" then
+	config.mux_enable_ssh_agent = false
+end
+
+return config
