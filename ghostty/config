@@ -23,10 +23,11 @@ cursor-text = #191724
 shell-integration-features = no-cursor
 
 # Shaders run in order (needs Ghostty 1.2+); paths are relative to this file.
-# Comment out a line to turn that effect off.
+# All off: animated shaders redraw every frame and cost battery.
+# Uncomment a line to turn that effect on.
 #custom-shader = shaders/vignette.glsl
-custom-shader = shaders/cursor_trail.glsl
+#custom-shader = shaders/cursor_trail.glsl
 #custom-shader = shaders/cursor_ripple.glsl
 #custom-shader = shaders/cursor_land_pulse.glsl
-custom-shader = shaders/cursor_glow.glsl
+#custom-shader = shaders/cursor_glow.glsl
 custom-shader-animation = true
