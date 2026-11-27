@@ -1,0 +1,204 @@
+# COSMIC defaults adapted for macOS. Super = Option (alt).
+# Reference: https://github.com/pop-os/cosmic-comp/blob/master/data/keybindings.ron
+# See docs/aerospace-shortcuts.md in dots-and-configs for differences and mode instructions.
+
+# v2: persistent-workspaces defaults to [], so empty workspaces vanish like COSMIC dynamic workspaces.
+config-version = 2
+
+start-at-login = true
+after-login-command = []
+# COSMIC-style active hint on the focused window (needs `brew install felixkratz/formulae/borders`).
+after-startup-command = [
+  'exec-and-forget /opt/homebrew/bin/borders active_color=0xffc4a7e7 inactive_color=0x00000000 width=6.0 style=round',
+]
+
+# Normalizations
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Mouse follows focus
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = ['move-mouse window-lazy-center']
+
+[gaps]
+inner.horizontal = 8
+inner.vertical = 8
+outer.left = 8
+outer.bottom = 8
+outer.top = 8
+outer.right = 8
+
+
+[mode.main.binding]
+alt-left = 'focus left'
+alt-shift-left = 'move left'
+alt-ctrl-left = 'workspace --wrap-around prev'
+alt-ctrl-shift-left = 'move-node-to-workspace --focus-follows-window --wrap-around prev'
+alt-cmd-left = 'focus-monitor left'
+alt-cmd-shift-left = 'move-node-to-monitor --focus-follows-window left'
+alt-down = 'focus down'
+alt-shift-down = 'move down'
+alt-ctrl-down = 'workspace --wrap-around next'
+alt-ctrl-shift-down = 'move-node-to-workspace --focus-follows-window --wrap-around next'
+alt-cmd-down = 'focus-monitor down'
+alt-cmd-shift-down = 'move-node-to-monitor --focus-follows-window down'
+alt-up = 'focus up'
+alt-shift-up = 'move up'
+alt-ctrl-up = 'workspace --wrap-around prev'
+alt-ctrl-shift-up = 'move-node-to-workspace --focus-follows-window --wrap-around prev'
+alt-cmd-up = 'focus-monitor up'
+alt-cmd-shift-up = 'move-node-to-monitor --focus-follows-window up'
+alt-right = 'focus right'
+alt-shift-right = 'move right'
+alt-ctrl-right = 'workspace --wrap-around next'
+alt-ctrl-shift-right = 'move-node-to-workspace --focus-follows-window --wrap-around next'
+alt-cmd-right = 'focus-monitor right'
+alt-cmd-shift-right = 'move-node-to-monitor --focus-follows-window right'
+alt-h = 'focus left'
+alt-shift-h = 'move left'
+alt-ctrl-h = 'workspace --wrap-around prev'
+alt-ctrl-shift-h = 'move-node-to-workspace --focus-follows-window --wrap-around prev'
+alt-cmd-h = 'focus-monitor left'
+alt-cmd-shift-h = 'move-node-to-monitor --focus-follows-window left'
+alt-j = 'focus down'
+alt-shift-j = 'move down'
+alt-ctrl-j = 'workspace --wrap-around next'
+alt-ctrl-shift-j = 'move-node-to-workspace --focus-follows-window --wrap-around next'
+alt-cmd-j = 'focus-monitor down'
+alt-cmd-shift-j = 'move-node-to-monitor --focus-follows-window down'
+alt-k = 'focus up'
+alt-shift-k = 'move up'
+alt-ctrl-k = 'workspace --wrap-around prev'
+alt-ctrl-shift-k = 'move-node-to-workspace --focus-follows-window --wrap-around prev'
+alt-cmd-k = 'focus-monitor up'
+alt-cmd-shift-k = 'move-node-to-monitor --focus-follows-window up'
+alt-l = 'focus right'
+alt-shift-l = 'move right'
+alt-ctrl-l = 'workspace --wrap-around next'
+alt-ctrl-shift-l = 'move-node-to-workspace --focus-follows-window --wrap-around next'
+alt-cmd-l = 'focus-monitor right'
+alt-cmd-shift-l = 'move-node-to-monitor --focus-follows-window right'
+alt-1 = 'workspace 1'
+alt-shift-1 = 'move-node-to-workspace --focus-follows-window 1'
+alt-2 = 'workspace 2'
+alt-shift-2 = 'move-node-to-workspace --focus-follows-window 2'
+alt-3 = 'workspace 3'
+alt-shift-3 = 'move-node-to-workspace --focus-follows-window 3'
+alt-4 = 'workspace 4'
+alt-shift-4 = 'move-node-to-workspace --focus-follows-window 4'
+alt-5 = 'workspace 5'
+alt-shift-5 = 'move-node-to-workspace --focus-follows-window 5'
+alt-6 = 'workspace 6'
+alt-shift-6 = 'move-node-to-workspace --focus-follows-window 6'
+alt-7 = 'workspace 7'
+alt-shift-7 = 'move-node-to-workspace --focus-follows-window 7'
+alt-8 = 'workspace 8'
+alt-shift-8 = 'move-node-to-workspace --focus-follows-window 8'
+alt-9 = 'workspace 9'
+alt-shift-9 = 'move-node-to-workspace --focus-follows-window 9'
+alt-0 = 'exec-and-forget /opt/homebrew/bin/python3 ~/.config/aerospace/cosmic-actions.py last-workspace'
+alt-shift-0 = 'exec-and-forget /opt/homebrew/bin/python3 ~/.config/aerospace/cosmic-actions.py move-last-workspace'
+alt-q = 'close'
+alt-f4 = 'close'
+alt-m = 'fullscreen'
+alt-f11 = 'macos-native-fullscreen'
+alt-g = 'layout floating tiling'
+alt-o = 'layout horizontal vertical'
+alt-s = 'layout accordion tiles'
+alt-y = 'exec-and-forget /opt/homebrew/bin/python3 ~/.config/aerospace/cosmic-actions.py toggle-workspace-tiling'
+alt-x = 'mode swap'
+alt-r = 'mode resize-out'
+alt-shift-r = 'mode resize-in'
+alt-tab = 'focus --wrap-around dfs-next'
+alt-shift-tab = 'focus --wrap-around dfs-prev'
+alt-t = 'exec-and-forget open -na Ghostty'
+alt-f = 'exec-and-forget open -a Finder'
+alt-b = 'exec-and-forget open -a Firefox'
+alt-a = 'exec-and-forget open /System/Applications/Apps.app'
+alt-w = 'exec-and-forget open -a "Mission Control"'
+alt-slash = 'exec-and-forget open /System/Library/CoreServices/Spotlight.app'
+alt-ctrl-shift-c = 'reload-config'
+
+[mode.resize-out.binding]
+left = 'resize width +50'
+alt-left = 'resize width +50'
+alt-shift-left = 'resize width +50'
+down = 'resize height +50'
+alt-down = 'resize height +50'
+alt-shift-down = 'resize height +50'
+up = 'resize height +50'
+alt-up = 'resize height +50'
+alt-shift-up = 'resize height +50'
+right = 'resize width +50'
+alt-right = 'resize width +50'
+alt-shift-right = 'resize width +50'
+h = 'resize width +50'
+alt-h = 'resize width +50'
+alt-shift-h = 'resize width +50'
+j = 'resize height +50'
+alt-j = 'resize height +50'
+alt-shift-j = 'resize height +50'
+k = 'resize height +50'
+alt-k = 'resize height +50'
+alt-shift-k = 'resize height +50'
+l = 'resize width +50'
+alt-l = 'resize width +50'
+alt-shift-l = 'resize width +50'
+esc = 'mode main'
+enter = 'mode main'
+
+[mode.resize-in.binding]
+left = 'resize width -50'
+alt-left = 'resize width -50'
+alt-shift-left = 'resize width -50'
+down = 'resize height -50'
+alt-down = 'resize height -50'
+alt-shift-down = 'resize height -50'
+up = 'resize height -50'
+alt-up = 'resize height -50'
+alt-shift-up = 'resize height -50'
+right = 'resize width -50'
+alt-right = 'resize width -50'
+alt-shift-right = 'resize width -50'
+h = 'resize width -50'
+alt-h = 'resize width -50'
+alt-shift-h = 'resize width -50'
+j = 'resize height -50'
+alt-j = 'resize height -50'
+alt-shift-j = 'resize height -50'
+k = 'resize height -50'
+alt-k = 'resize height -50'
+alt-shift-k = 'resize height -50'
+l = 'resize width -50'
+alt-l = 'resize width -50'
+alt-shift-l = 'resize width -50'
+esc = 'mode main'
+enter = 'mode main'
+
+[mode.swap.binding]
+left = ['swap left', 'mode main']
+alt-left = ['swap left', 'mode main']
+alt-shift-left = ['swap left', 'mode main']
+down = ['swap down', 'mode main']
+alt-down = ['swap down', 'mode main']
+alt-shift-down = ['swap down', 'mode main']
+up = ['swap up', 'mode main']
+alt-up = ['swap up', 'mode main']
+alt-shift-up = ['swap up', 'mode main']
+right = ['swap right', 'mode main']
+alt-right = ['swap right', 'mode main']
+alt-shift-right = ['swap right', 'mode main']
+h = ['swap left', 'mode main']
+alt-h = ['swap left', 'mode main']
+alt-shift-h = ['swap left', 'mode main']
+j = ['swap down', 'mode main']
+alt-j = ['swap down', 'mode main']
+alt-shift-j = ['swap down', 'mode main']
+k = ['swap up', 'mode main']
+alt-k = ['swap up', 'mode main']
+alt-shift-k = ['swap up', 'mode main']
+l = ['swap right', 'mode main']
+alt-l = ['swap right', 'mode main']
+alt-shift-l = ['swap right', 'mode main']
+esc = 'mode main'
+enter = 'mode main'

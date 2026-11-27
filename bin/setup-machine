@@ -116,6 +116,11 @@ for tool in git zsh nvim starship fzf zoxide eza tmux rg fd jq; do
 done
 command -v ghostty >/dev/null 2>&1 || [ -d /Applications/Ghostty.app ] || note "missing: ghostty"
 command -v wezterm >/dev/null 2>&1 || [ -d /Applications/WezTerm.app ] || note "missing: wezterm"
+if [ "$(uname)" = Darwin ]; then
+  command -v aerospace >/dev/null 2>&1 || note "missing: aerospace (brew install --cask nikitabobko/tap/aerospace)"
+  command -v borders >/dev/null 2>&1 || note "missing: borders (brew install felixkratz/formulae/borders)"
+  [ -d /Applications/Karabiner-Elements.app ] || note "missing: karabiner (brew install --cask karabiner-elements)"
+fi
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] || \
   note "missing: zap (git clone --depth 1 -b release-v1 https://github.com/zap-zsh/zap.git ~/.local/share/zap)"
 [ -d "$HOME/.tmux/plugins/tpm" ] || \

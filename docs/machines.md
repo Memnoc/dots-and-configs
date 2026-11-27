@@ -11,6 +11,7 @@ Done by `bin/setup-machine` (safe to repeat):
 - [ ] every repo in `~/Code` pulled
 - [ ] `core.hooksPath .githooks` in dots-and-configs and My-LazyVim
 - [ ] configs copied: zsh, tmux, starship, Ghostty, WezTerm, agent guidance
+      (macOS: also AeroSpace, Karabiner)
 - [ ] LazyVim synced to Neovim's config dir
 
 Manual, per platform (the script reports which are missing):
@@ -94,3 +95,18 @@ then `bin/setup-machine`, and record the result here. Node is managed with
 Not yet checked from this repo. `bin/sync-config` and `bin/setup-machine`
 are written for bash 3.2 but have not been run on macOS yet: start with
 `--dry-run`. Ghostty and WezTerm are detected in `/Applications`.
+
+Window management (synced on every Mac; `setup-machine` reports what is missing):
+
+- **AeroSpace** (`brew install --cask nikitabobko/tap/aerospace`): COSMIC-style
+  tiling, Super = Option. Config in `macos/aerospace/`; keybindings in
+  `aerospace-shortcuts.md`. `cosmic-actions.py` needs `/opt/homebrew/bin/python3`
+  (Apple Silicon Homebrew). Grant Accessibility, then `aerospace reload-config`.
+- **borders** (`brew install felixkratz/formulae/borders`): focused-window
+  outline (Rose Pine iris, 6px, round). No config file; AeroSpace starts it
+  from `after-startup-command`.
+- **Karabiner-Elements** (`brew install --cask karabiner-elements`): left
+  Option tapped alone sends Command-Space (Spotlight). `karabiner.json` sets
+  `keyboard_type_v2 = ansi` (every machine has an ANSI keyboard). Karabiner rewrites the
+  file when its settings change, so the next sync will report it as edited
+  locally: copy the change into the repo.

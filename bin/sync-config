@@ -25,6 +25,11 @@ ghostty               ~/.config/ghostty
 agents/global.md      ~/.claude/CLAUDE.md
 agents/global.md      ~/.codex/AGENTS.md
 "
+# macOS only: AeroSpace (also starts borders) and Karabiner-Elements
+[ "$(uname)" = Darwin ] && MAP="$MAP
+macos/aerospace       ~/.config/aerospace
+macos/karabiner       ~/.config/karabiner
+"
 
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/dots-and-configs"

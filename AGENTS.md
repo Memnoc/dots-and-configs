@@ -17,6 +17,8 @@ Configs are **plain copies, never symlinks**. `bin/sync-config` copies:
 | `ghostty/` | `~/.config/ghostty/` |
 | `.config/wezterm/` | `~/.config/wezterm/` |
 | `agents/global.md` | `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md` |
+| `macos/aerospace/` (macOS only) | `~/.config/aerospace/` |
+| `macos/karabiner/` (macOS only) | `~/.config/karabiner/` |
 
 - With `core.hooksPath .githooks` set, `post-merge` and `post-rewrite` run the
   sync after every `git pull`, whether it fast-forwards or rebases.

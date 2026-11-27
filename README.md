@@ -110,6 +110,8 @@ the tracked files to their live locations:
 | `ghostty/` | `~/.config/ghostty/` |
 | `.config/wezterm/` | `~/.config/wezterm/` |
 | `agents/global.md` | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` |
+| `macos/aerospace/` (macOS only) | `~/.config/aerospace/` |
+| `macos/karabiner/` (macOS only) | `~/.config/karabiner/` |
 
 `bin/setup-machine` turns on the hooks (`git config core.hooksPath .githooks`),
 after which every `git pull` runs `bin/sync-config` automatically. You can also
